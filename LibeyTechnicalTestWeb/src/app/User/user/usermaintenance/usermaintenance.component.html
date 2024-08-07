@@ -3,7 +3,7 @@
 		<div class="card-header"><b>Mantenimiento de usuario</b></div>
 		<div class="card mb-4 mt-4">
 			<ul class="nav">
-				<button type="button" class="btn-toolbar" (click)="Submit()">
+				<button type="button" class="btn-toolbar" (click)="createlibeyUser()">
 					<a class="nav-link text-toolbar">
 						<span>
 							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
@@ -20,7 +20,7 @@
 						Guardar
 					</a>
 				</button>
-				<button type="button" class="btn-toolbar">
+				<button type="button" class="btn-toolbar" (click)="limpiar()">
 					<a class="nav-link text-toolbar">
 						<span>
 							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
@@ -38,7 +38,7 @@
 					</a>
 				</button>
 				<button type="button" class="btn-toolbar">
-					<a class="nav-link text-toolbar">
+					<a class="nav-link text-toolbar"href="user/card">
 						<span>
 							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
 								<path
@@ -60,55 +60,60 @@
 			<div class="row pb-2 pr-2">
 				<div class="col-lg-2">Tipo de documento</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="TypeDocument" [(ngModel)]="libeyUserAddOrALter.documentTypeId" required>
+						<ng-option *ngFor="let documentType of documentTypes" [value]="documentType.documentTypeId">{{documentType.documentTypeDescription}}</ng-option>
 					</ng-select>
 				</div>
 				<div class="col-lg-2">Número de documento</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="Document" [(ngModel)]="libeyUserAddOrALter.documentNumber"/></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Nombre</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm"  name="Nombre"  [(ngModel)]="libeyUserAddOrALter.name"/></div>
 				<div class="col-lg-2">Apellido Paterno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="ApellidoPaterno" [(ngModel)]="libeyUserAddOrALter.fathersLastName"/></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Apellido Materno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="ApellidoMaterno" [(ngModel)]="libeyUserAddOrALter.mothersLastName"/></div>
 				<div class="col-lg-2">Dirección</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="Direccion"  [(ngModel)]="libeyUserAddOrALter.address"/></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Departamento</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="Region"  [(ngModel)]="libeyUserAddOrALter.regionCode" (change)="getProvince();getDistrito();" required>
+						<ng-option *ngFor="let region of regions" [value]="region.regionCode">{{region.regionDescription}}</ng-option>
 					</ng-select>
 				</div>
 				<div class="col-lg-2">Provincia</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="Province"   [(ngModel)]="libeyUserAddOrALter.provinceCode"  (change)="getDistrito()" required>
+						<ng-option *ngFor="let province of provinces" [value]="province.provinceCode">{{province.provinceDescription}}</ng-option>
 					</ng-select>
 				</div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Distrito</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Villa el salvador</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="District" [(ngModel)]="libeyUserAddOrALter.ubigeoCode" required >
+            <ng-option *ngFor="let ubigeo of ubigeos" [value]="ubigeo.ubigeoCode">{{ubigeo.ubigeoDescription}}</ng-option>
 					</ng-select>
 				</div>
 				<div class="col-lg-2">Telefono</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="Telefono"  [(ngModel)]="libeyUserAddOrALter.phone"/></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Correo</div>
-				<div class="col-lg-4"><input type="email" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="email" class="form-control form-control-sm" name="Correo" [(ngModel)]="libeyUserAddOrALter.email"/></div>
 				<div class="col-lg-2">Contraseña</div>
-				<div class="col-lg-4"><input type="password" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="password" class="form-control form-control-sm" name="Compania"  [(ngModel)]="libeyUserAddOrALter.password"/></div>
 			</div>
 		</div>
-	</div>	
+	</div>
+
 </form>
+
+
+
+

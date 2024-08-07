@@ -35,14 +35,19 @@ CREATE TABLE LibeyUser(
 	MothersLastName varchar(100),
 	Address 		varchar(100),
 	UbigeoCode		char(6),
+	RegionCode      char(2),
+	ProvinceCode    char(4),
 	Phone 			varchar(20),
-	Email 			varchar(20),
-	Password 		varchar(20),
+	Email 			varchar(50),
+	Password 		varchar(max),
 	Active			bit
 ) 
 GO
+
+update LibeyUser set RegionCode='03', ProvinceCode='0303'
+
 INSERT INTO DocumentType VALUES (1,'Documento Nacional de Identidad')
-INSERT INTO DocumentType VALUES (1,'Registro Único de Contribuyente ')
+INSERT INTO DocumentType VALUES (2,'Registro Único de Contribuyente ')
 GO
  INSERT INTO Region VALUES ('01','Amazonas')
  INSERT INTO Region VALUES ('02','Ancash')

@@ -1,0 +1,147 @@
+<form #userForm="ngForm" style="padding-right: 5%; padding-left: 5%; ">
+	<div class="card" style="width: 100%;margin-top: 2rem;background-color:#edf2f6;border-radius: 10px; height: 70em; " >
+		<div class="card-header"><b>Listado de Usuarios</b></div>
+    <div class="card mb-4 mt-4">
+			<ul class="nav">
+
+				<button type="button" class="btn-toolbar">
+					<a class="nav-link text-toolbar"href="user/card">
+						<span>
+							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
+								<path
+									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
+									stroke="#38E8C6"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</span>
+						Volver
+					</a>
+				</button>
+			</ul>
+		</div>
+		<div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar por documento,nombre,Apellido,email" name="textBuscar"  [(ngModel)]="this.textBuscar" (input)="GetText()"(change)="GetText()">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+          </div>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Documento</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido Pat</th>
+            <th scope="col">Apellido Mat</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Ubigeo</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Email</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Handles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of libeyUsers">
+            <td scope="col">{{usuario.documentNumber}}</td>
+            <td scope="col">{{usuario.documentTypeId}}</td>
+            <td scope="col">{{usuario.name}}</td>
+            <td scope="col">{{usuario.fathersLastName}}</td>
+            <td scope="col">{{usuario.mothersLastName}}</td>
+            <td scope="col">{{usuario.address}}</td>
+            <td scope="col">{{usuario.ubigeoCode}}</td>
+            <td scope="col">{{usuario.phone}}</td>
+            <td scope="col">{{usuario.email}}</td>
+
+            <td scope="col" *ngIf="usuario.active==true"><button class="btn btn-success" (click)="ChangeState(usuario.documentNumber)">A</button></td>
+            <td scope="col" *ngIf="usuario.active==false"><button class="btn btn-danger" (click)="ChangeState(usuario.documentNumber)">D</button></td>
+            <td scope="col">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="FindUser(usuario.documentNumber)">mod</button>
+              <button class="btn btn-danger" (click)="Delete(usuario.documentNumber)">eli</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog custom-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar usuario</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="row pb-2 pr-2">
+            <div class="col-lg-2">Tipo de documento</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" name="TypeDocument" [(ngModel)]="libeyUserAddOrALter.documentTypeId" required>
+                <ng-option *ngFor="let documentType of documentTypes" [value]="documentType.documentTypeId">{{documentType.documentTypeDescription}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-lg-2">Número de documento</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="Document" [(ngModel)]="libeyUserAddOrALter.documentNumber"/></div>
+          </div>
+          <div class="row pb-2">
+            <div class="col-lg-2">Nombre</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm"  name="Nombre"  [(ngModel)]="libeyUserAddOrALter.name"/></div>
+            <div class="col-lg-2">Apellido Paterno</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="ApellidoPaterno" [(ngModel)]="libeyUserAddOrALter.fathersLastName"/></div>
+          </div>
+          <div class="row pb-2">
+            <div class="col-lg-2">Apellido Materno</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="ApellidoMaterno" [(ngModel)]="libeyUserAddOrALter.mothersLastName"/></div>
+            <div class="col-lg-2">Dirección</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="Direccion"  [(ngModel)]="libeyUserAddOrALter.address"/></div>
+          </div>
+          <div class="row pb-2">
+            <div class="col-lg-2">Departamento</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" name="Region"  [(ngModel)]="this.libeyUserAddOrALter.regionCode" (change)="getProvince();getDistrito();" required>
+                <ng-option *ngFor="let region of regions" [value]="region.regionCode">{{region.regionDescription}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-lg-2">Provincia</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" name="Province"   [(ngModel)]="this.libeyUserAddOrALter.provinceCode"  (change)="getDistrito()" required>
+                <ng-option *ngFor="let province of provinces" [value]="province.provinceCode">{{province.provinceDescription}}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row pb-2">
+            <div class="col-lg-2">Distrito</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" name="District" [(ngModel)]="libeyUserAddOrALter.ubigeoCode" required >
+                <ng-option *ngFor="let ubigeo of ubigeos" [value]="ubigeo.ubigeoCode">{{ubigeo.ubigeoDescription}}</ng-option>
+              </ng-select>
+            </div>
+            <div class="col-lg-2">Telefono</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="Telefono"  [(ngModel)]="libeyUserAddOrALter.phone"/></div>
+          </div>
+          <div class="row pb-2">
+            <div class="col-lg-2">Correo</div>
+            <div class="col-lg-4"><input type="email" class="form-control form-control-sm" name="Correo" [(ngModel)]="libeyUserAddOrALter.email"/></div>
+            <div class="col-lg-2">Contraseña</div>
+            <div class="col-lg-4"><input type="password" class="form-control form-control-sm" name="Compania"  [(ngModel)]="libeyUserAddOrALter.password"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="UpdatelibeyUser()" data-bs-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+		</div>
+	</div>
+
+</form>
