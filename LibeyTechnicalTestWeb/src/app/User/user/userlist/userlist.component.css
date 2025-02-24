@@ -1,0 +1,119 @@
+:root {
+  --color-primary: #009fe3; /* Azul principal */
+  --color-secondary: #056fbb; /* Azul oscuro */
+  --color-accent: #38e8c6; /* Verde agua */
+  --color-text: #2a2a2a; /* Texto oscuro */
+  --color-light-text: #4f4f4f; /* Texto claro */
+  --color-bg-header: #f0f8ff; /* Fondo encabezado */
+  --color-bg-row: #ffffff; /* Fondo de filas */
+  --color-bg-hover: #e8f4fd; /* Hover de fila */
+  --color-border: #dcdcdc; /* Bordes */
+  --font-family: 'Poppins', Arial, sans-serif; /* Tipografía moderna */
+}
+
+.play-list-body {
+  padding: 1rem 2rem ;
+}
+
+.play-list-table-header {
+  width: 100%;
+  list-style: none;
+  display: grid;
+  grid-template-columns:  2fr 2fr 3fr 3fr 3fr 1fr 2fr;
+  margin: 0;
+  padding: 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background-color: var(--color-bg-header);
+  border-bottom: 3px solid var(--color-primary);
+  color: var(--color-secondary);
+  text-align: center;
+}
+
+.play-list-table-header li {
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.75rem;
+  color: var(--color-secondary);
+}
+
+.play-list-rows {
+  width: 100%;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 2fr 2fr 3fr 3fr 3fr 1fr 2fr;
+  margin: 0;
+  padding: 0.85rem 0;
+  background-color: var(--color-bg-row);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.play-list-rows .track-name-opacity {
+  opacity: .7;
+  font-weight: 300;
+}
+
+.cover-section {
+  display: flex;
+  padding: 0
+}
+
+.cover-section .cover-track {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.cover-section .cover-info {
+  padding: 0 1rem;
+}
+
+.cover-section .cover-info .name-track-details {
+  font-size: 80%;
+  opacity: .7;
+}
+
+
+
+
+.boton button {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  font-weight: bold;
+  font-size: 0.85rem;
+  text-align: center;
+  border-radius: 6px;
+  user-select: none;
+  border: none;
+  cursor: pointer;
+  width: 120px; /* Mismo ancho para ambos botones */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.estado-activo button {
+  background-color: #eafaf1;
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.estado-activo button:hover {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.estado-inactivo button {
+  background-color: #fdecea;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+.estado-inactivo button:hover {
+  background-color: #e74c3c;
+  color: #ffffff;
+}

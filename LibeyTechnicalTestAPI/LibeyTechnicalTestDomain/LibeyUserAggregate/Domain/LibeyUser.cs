@@ -1,4 +1,6 @@
-﻿namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Domain
+﻿using System.Xml.Linq;
+
+namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Domain
 {
     public class LibeyUser
     {
@@ -13,6 +15,10 @@
         public string Email { get; private set; }
         public string Password { get; private set; }
         public bool Active { get; private set; }
+
+        public DocumentType DocumentType { get; private set; }
+        public Ubigeo Ubigeo { get; private set; }
+
         public LibeyUser(string documentNumber, int documentTypeId, string name, string fathersLastName, string mothersLastName, string address,
         string ubigeoCode, string phone, string email, string password)
         {
@@ -28,5 +34,30 @@
             Password = password;
             Active = true;
         }
+
+        public void UpdateLibeyUser(int documentTypeId, string name, string fathersLastName, string mothersLastName,
+                          string address, string ubigeoCode, string phone, string email, string password)
+        {
+            DocumentTypeId = documentTypeId;
+            Name = name;
+            FathersLastName = fathersLastName;
+            MothersLastName = mothersLastName;
+            Address = address;
+            UbigeoCode = ubigeoCode;
+            Phone = phone;
+            Email = email;
+            Password = password;
+        }
+
+        public void DeactivateUser()
+        {
+            Active = false;
+        }
+
+        public void ActivateUser()
+        {
+            Active = true;
+        }
+
     }
 }

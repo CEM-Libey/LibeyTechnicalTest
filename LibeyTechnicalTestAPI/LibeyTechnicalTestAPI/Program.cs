@@ -1,5 +1,8 @@
 using LibeyTechnicalTestAPI.Middleware;
 using LibeyTechnicalTestDomain.EFCore;
+using LibeyTechnicalTestDomain.LibeyUserAggregate.Application.Interfaces;
+using LibeyTechnicalTestDomain.LibeyUserAggregate.Application;
+using LibeyTechnicalTestDomain.LibeyUserAggregate.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").AddEnvironmentVariables().Build();
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +28,11 @@ builder.Services.AddDbContext<Context>(options =>
         builder.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null);
     });
 });
+
+
+DIExtensions.AddConfigurations(builder.Services);
+
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

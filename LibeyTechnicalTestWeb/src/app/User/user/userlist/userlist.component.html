@@ -1,0 +1,103 @@
+
+<div >
+  <button class="btn btn-info btn-lg btn-block ms-4"  type="submit" (click)="IrCrearUsuarioFrm()">Crear Usuario</button>
+</div>
+
+<div class="play-list-body">
+  <ul class="play-list-table-header">
+    <li (click)="cambiarOrden('documentNumber')"><i class="uil uil-shield-check"></i> Identificacion</li>
+    <li (click)="cambiarOrden('fathersLastName')"><i class="uil uil-user"> </i> Usuario</li>
+    <li (click)="cambiarOrden('ubigeoCode')"><i class="uil uil-map"></i> Ubigeo</li>
+    <li (click)="cambiarOrden('address')">  <i class="uil uil-location-point"></i> Direccion</li>
+    <li >Contacto</li>
+    <li (click)="cambiarOrden('active')">Estado</li>
+    <li><i class="uil uil-ellipsis-h"></i> Acciones</li>
+  </ul>
+  <ul
+    class="play-list-rows"
+    *ngFor="let user of libeyUsers| orderList : optionSort.property : optionSort.order ">
+
+    <li class="track-name">
+      <ng-container
+        *ngTemplateOutlet="coverSectionIdentification; context: { x: user }"
+      ></ng-container>
+    </li>
+
+    <li class="track-name">
+      <ng-container
+        *ngTemplateOutlet="coverSectionUser; context: { x: user }"
+      ></ng-container>
+    </li>
+
+    <li class="track-name">
+      <ng-container
+        *ngTemplateOutlet="coverSectionUbigeo; context: { x: user }"
+      ></ng-container>
+    </li>
+
+    <li class="track-name-opacity">
+      <i class="uil uil-location-point"></i>{{ user.address }}
+    </li>
+
+    <li class="track-name">
+      <ng-container
+        *ngTemplateOutlet="coverSectionContacto; context: { x: user }"
+      ></ng-container>
+    </li>
+
+    <li class=" track-name-opacity boton" [ngClass]="user.active ? 'estado-activo' : 'estado-inactivo'">
+      <button >{{ user.active ? 'ACTIVO' : 'INACTIVO' }}</button>
+    </li>
+
+    <li class="action-buttons boton">
+      <button class="btn-edit" (click)="editarUsuario(user)">Editar</button>
+      <p></p>
+      <button class="btn-delete" (click)="cambiarEstatusUsuario(user)">{{ user.active ? 'Dar de baja' : 'Dar de alta' }}</button>
+      <p></p>
+      <button class="btn-delete" (click)="eliminarUsuario(user)">Eliminar</button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #coverSectionIdentification let-x="x">
+  <div class="cover-section">
+    <!-- <img appImgBroken class="cover-track" [src]="track.cover" [alt]="track.name"> -->
+    <div class="cover-info">
+      <div class="name-track">{{ x.documentTypeDescription }}</div>
+      <div class="name-track">{{ x.documentNumber }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #coverSectionUser let-user="x">
+  <div class="cover-section">
+    <!-- <img appImgBroken class="cover-track" [src]="track.cover" [alt]="track.name"> -->
+    <div class="cover-info">
+
+      <div class="name-track">
+        {{ user.fathersLastName }} {{ user.mothersLastName }}
+      </div>
+      <div class="name-track-details">{{ user.name }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #coverSectionUbigeo let-x="x">
+  <div class="cover-section">
+
+    <div class="cover-info">
+      <div class="name-track">Region: {{ x.regionDescription }} </div>
+      <div class="name-track">Provincia: {{ x.provinceDescription }} </div>
+      <div class="name-track">Ubigeo: {{ x.ubigeoDescription }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #coverSectionContacto let-x="x">
+  <div class="cover-section">
+    <div class="cover-info">
+      <div class="name-track"> <i class="uil uil-phone"> {{ x.phone }}</i> </div>
+      <div class="name-track"><i class="uil uil-envelope"> {{ x.email }}</i> </div>
+    </div>
+  </div>
+</ng-template>
