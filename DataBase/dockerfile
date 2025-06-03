@@ -1,9 +1,31 @@
 FROM mcr.microsoft.com/mssql/server:2019-CU12-ubuntu-20.04
+
 ENV ACCEPT_EULA=Y
 ENV SA_PASSWORD=.Nv3rrefg049jsKK.
 ENV MSSQL_PID=Express
-COPY ["CEM/SqlCmdScript.sql","var/opt/sqlserver/SqlCmdScript.sql"]
+
+COPY ["CEM/SqlCmdScript.sql", "/var/opt/mssql/scripts/SqlCmdScript.sql"]
+
 USER root
-RUN chmod +x var/opt/sqlserver/SqlCmdScript.sql
+RUN chmod +r /var/opt/mssql/scripts/SqlCmdScript.sql
+
+EXPOSE 1433
+
 USER mssql
-RUN /opt/mssql/bin/sqlservr & sleep 60s & /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P .Nv3rrefg049jsKK. -d master -i /var/opt/sqlserver/SqlCmdScript.sql
+
+# Script inline más robusto
+CMD /opt/mssql/bin/sqlservr & \
+    echo "Esperando SQL Server..." && \
+    sleep 20 && \
+    for i in {1..30}; do \
+        if /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "SELECT 1" > /dev/null 2>&1; then \
+            echo "SQL Server listo, ejecutando script..." && \
+            /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i /var/opt/mssql/scripts/SqlCmdScript.sql && \
+            echo "Script ejecutado exitosamente" && \
+            break; \
+        else \
+            echo "Esperando SQL Server... intento $i/30" && \
+            sleep 2; \
+        fi; \
+    done && \
+    wait

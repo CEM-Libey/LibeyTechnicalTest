@@ -3,21 +3,25 @@ import { RouterModule, Routes } from "@angular/router";
 import { AppComponent } from "./app.component";
 import { UsercardsComponent } from "./User/user/usercards/usercards.component";
 import { UsermaintenanceComponent } from "./User/user/usermaintenance/usermaintenance.component";
+
 const routes: Routes = [
 	{
 		path: "",
-		redirectTo: "/user",
+		redirectTo: "/user/cards",
 		pathMatch: "full",
 	},
 	{
 		path: "user",
 		children: [
-			{ path: "card", component: UsercardsComponent },
+			{ path: "cards", component: UsercardsComponent },
 			{ path: "maintenance", component: UsermaintenanceComponent },
+			{ path: "maintenance/:documentNumber", component: UsermaintenanceComponent },
+			{ path: "", redirectTo: "cards", pathMatch: "full" }
 		],
 	},
-	{ path: "**", component: AppComponent },
+	{ path: "**", redirectTo: "/user/cards" },
 ];
+
 @NgModule({
 	imports: [RouterModule.forRoot(routes)],
 	exports: [RouterModule],

@@ -1,114 +1,364 @@
-<form #userForm="ngForm" style="padding-right: 5%; padding-left: 5%; ">
-	<div class="card" style="width: 100%;margin-top: 2rem;background-color:#edf2f6;border-radius: 10px; height: 70em; " >
-		<div class="card-header"><b>Mantenimiento de usuario</b></div>
-		<div class="card mb-4 mt-4">
-			<ul class="nav">
-				<button type="button" class="btn-toolbar" (click)="Submit()">
-					<a class="nav-link text-toolbar">
-						<span>
-							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-								<path
-									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-									stroke="#38E8C6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</span>
-						Guardar
-					</a>
+<div class="container-fluid">
+	<!-- Header -->
+	<div class="row mb-4">
+		<div class="col-12">
+			<div class="d-flex justify-content-between align-items-center">
+				<h2 class="mb-0">
+					<i class="fas fa-user-edit text-primary"></i>
+					{{ getPageTitle() }}
+				</h2>
+				<button
+					class="btn btn-outline-secondary"
+					(click)="onCancel()">
+					<i class="fas fa-arrow-left"></i>
+					Volver a Lista
 				</button>
-				<button type="button" class="btn-toolbar">
-					<a class="nav-link text-toolbar">
-						<span>
-							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-								<path
-									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-									stroke="#38E8C6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</span>
-						Limpiar
-					</a>
-				</button>
-				<button type="button" class="btn-toolbar">
-					<a class="nav-link text-toolbar">
-						<span>
-							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-								<path
-									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-									stroke="#38E8C6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</span>
-						Volver
-					</a>
-				</button>
-			</ul>
+			</div>
 		</div>
-		<div class="card-body">
-			<div class="row pb-2 pr-2">
-				<div class="col-lg-2">Tipo de documento</div>
-				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
-					</ng-select>
+	</div>
+
+	<!-- Loading Catalogs -->
+	<div class="row mb-3" *ngIf="loadingCatalogs">
+		<div class="col-12">
+			<div class="alert alert-info text-center">
+				<div class="spinner-border spinner-border-sm me-2" role="status"></div>
+				Cargando catálogos...
+			</div>
+		</div>
 				</div>
-				<div class="col-lg-2">Número de documento</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+
+	<!-- Loading User -->
+	<div class="row mb-3" *ngIf="loading">
+		<div class="col-12">
+			<div class="alert alert-info text-center">
+				<div class="spinner-border spinner-border-sm me-2" role="status"></div>
+				Cargando datos del usuario...
 			</div>
-			<div class="row pb-2">
-				<div class="col-lg-2">Nombre</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
-				<div class="col-lg-2">Apellido Paterno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+		</div>
+	</div>
+
+	<!-- Success Message -->
+	<div class="row mb-3" *ngIf="success">
+		<div class="col-12">
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<i class="fas fa-check-circle"></i>
+				{{ success }}
+				<button type="button" class="btn-close" (click)="success = null"></button>
 			</div>
-			<div class="row pb-2">
-				<div class="col-lg-2">Apellido Materno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
-				<div class="col-lg-2">Dirección</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+		</div>
+	</div>
+
+	<!-- Error Message -->
+	<div class="row mb-3" *ngIf="error">
+		<div class="col-12">
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				<i class="fas fa-exclamation-triangle"></i>
+				{{ error }}
+				<button type="button" class="btn-close" (click)="error = null"></button>
 			</div>
-			<div class="row pb-2">
-				<div class="col-lg-2">Departamento</div>
-				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
-					</ng-select>
+		</div>
+	</div>
+
+	<!-- Formulario -->
+	<div class="row" *ngIf="!loadingCatalogs">
+		<div class="col-12">
+			<div class="card shadow-sm">
+				<div class="card-header bg-primary text-white">
+					<h5 class="mb-0">
+						<i class="fas fa-form"></i>
+						Información del Usuario
+					</h5>
 				</div>
-				<div class="col-lg-2">Provincia</div>
-				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
-					</ng-select>
+				<div class="card-body">
+					<form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+
+						<!-- Sección: Datos de Identificación -->
+						<div class="form-section mb-4">
+							<h6 class="section-title">
+								<i class="fas fa-id-card text-primary"></i>
+								Datos de Identificación
+							</h6>
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="documentTypeId" class="form-label">
+										Tipo de Documento <span class="text-danger">*</span>
+									</label>
+									<select
+										id="documentTypeId"
+										class="form-select"
+										formControlName="documentTypeId"
+										[class.is-invalid]="isFieldInvalid('documentTypeId')">
+										<option value="">Seleccionar tipo de documento</option>
+										<option
+											*ngFor="let docType of documentTypes"
+											[value]="docType.id">
+											{{ docType.description }}
+										</option>
+									</select>
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('documentTypeId')">
+										{{ getFieldError('documentTypeId') }}
+									</div>
+								</div>
+
+								<div class="col-md-6 mb-3">
+									<label for="documentNumber" class="form-label">
+										Número de Documento <span class="text-danger">*</span>
+									</label>
+									<input
+										type="text"
+										id="documentNumber"
+										class="form-control"
+										formControlName="documentNumber"
+										[class.is-invalid]="isFieldInvalid('documentNumber')"
+										placeholder="Ej: 12345678"
+										maxlength="11">
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('documentNumber')">
+										{{ getFieldError('documentNumber') }}
+									</div>
+									<div class="form-text" *ngIf="isEditMode">
+										<i class="fas fa-info-circle"></i>
+										El número de documento no se puede modificar
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Sección: Datos Personales -->
+						<div class="form-section mb-4">
+							<h6 class="section-title">
+								<i class="fas fa-user text-primary"></i>
+								Datos Personales
+							</h6>
+							<div class="row">
+								<div class="col-md-4 mb-3">
+									<label for="name" class="form-label">
+										Nombres <span class="text-danger">*</span>
+									</label>
+									<input
+										type="text"
+										id="name"
+										class="form-control"
+										formControlName="name"
+										[class.is-invalid]="isFieldInvalid('name')"
+										placeholder="Nombres"
+										maxlength="50">
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
+										{{ getFieldError('name') }}
+									</div>
+								</div>
+
+								<div class="col-md-4 mb-3">
+									<label for="fathersLastName" class="form-label">
+										Apellido Paterno <span class="text-danger">*</span>
+									</label>
+									<input
+										type="text"
+										id="fathersLastName"
+										class="form-control"
+										formControlName="fathersLastName"
+										[class.is-invalid]="isFieldInvalid('fathersLastName')"
+										placeholder="Apellido paterno"
+										maxlength="50">
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('fathersLastName')">
+										{{ getFieldError('fathersLastName') }}
+									</div>
+								</div>
+
+								<div class="col-md-4 mb-3">
+									<label for="mothersLastName" class="form-label">
+										Apellido Materno <span class="text-danger">*</span>
+									</label>
+									<input
+										type="text"
+										id="mothersLastName"
+										class="form-control"
+										formControlName="mothersLastName"
+										[class.is-invalid]="isFieldInvalid('mothersLastName')"
+										placeholder="Apellido materno"
+										maxlength="50">
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('mothersLastName')">
+										{{ getFieldError('mothersLastName') }}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Sección: Datos de Contacto -->
+						<div class="form-section mb-4">
+							<h6 class="section-title">
+								<i class="fas fa-address-card text-primary"></i>
+								Datos de Contacto
+							</h6>
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="email" class="form-label">
+										Email <span class="text-danger">*</span>
+									</label>
+									<input
+										type="email"
+										id="email"
+										class="form-control"
+										formControlName="email"
+										[class.is-invalid]="isFieldInvalid('email')"
+										placeholder="usuario@ejemplo.com"
+										maxlength="100">
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+										{{ getFieldError('email') }}
+									</div>
+								</div>
+
+								<div class="col-md-6 mb-3">
+									<label for="phone" class="form-label">
+										Teléfono <span class="text-danger">*</span>
+									</label>
+									<input
+										type="tel"
+										id="phone"
+										class="form-control"
+										formControlName="phone"
+										[class.is-invalid]="isFieldInvalid('phone')"
+										placeholder="Ej: 999888777"
+										maxlength="15">
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('phone')">
+										{{ getFieldError('phone') }}
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="address" class="form-label">
+										Dirección <span class="text-danger">*</span>
+									</label>
+									<textarea
+										id="address"
+										class="form-control"
+										formControlName="address"
+										[class.is-invalid]="isFieldInvalid('address')"
+										placeholder="Dirección completa"
+										rows="3"
+										maxlength="200"></textarea>
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('address')">
+										{{ getFieldError('address') }}
+									</div>
+								</div>
+
+								<div class="col-md-6 mb-3">
+									<label for="ubigeoCode" class="form-label">
+										Ubigeo <span class="text-danger">*</span>
+									</label>
+									<select
+										id="ubigeoCode"
+										class="form-select"
+										formControlName="ubigeoCode"
+										[class.is-invalid]="isFieldInvalid('ubigeoCode')">
+										<option value="">Seleccionar ubigeo</option>
+										<option
+											*ngFor="let ubigeo of ubigeos"
+											[value]="ubigeo.ubigeoCode">
+											{{ ubigeo.description }}
+										</option>
+									</select>
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('ubigeoCode')">
+										{{ getFieldError('ubigeoCode') }}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Sección: Seguridad -->
+						<div class="form-section mb-4">
+							<h6 class="section-title">
+								<i class="fas fa-lock text-primary"></i>
+								Datos de Seguridad
+							</h6>
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="password" class="form-label">
+										Contraseña <span class="text-danger">*</span>
+									</label>
+									<input
+										type="password"
+										id="password"
+										class="form-control"
+										formControlName="password"
+										[class.is-invalid]="isFieldInvalid('password')"
+										placeholder="Mínimo 6 caracteres"
+										maxlength="50">
+									<div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+										{{ getFieldError('password') }}
+									</div>
+									<div class="form-text">
+										<i class="fas fa-info-circle"></i>
+										La contraseña debe tener al menos 6 caracteres
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Botones de Acción -->
+						<div class="form-actions">
+							<div class="row">
+								<div class="col-12">
+									<div class="d-flex justify-content-between align-items-center">
+										<div>
+											<button
+												type="button"
+												class="btn btn-outline-secondary me-2"
+												(click)="onCancel()">
+												<i class="fas fa-times"></i>
+												Cancelar
+											</button>
+											<button
+												type="button"
+												class="btn btn-outline-warning"
+												(click)="onReset()">
+												<i class="fas fa-undo"></i>
+												Restablecer
+											</button>
+										</div>
+
+										<button
+											type="submit"
+											class="btn btn-primary btn-lg"
+											[disabled]="saving || userForm.invalid">
+											<span
+												class="spinner-border spinner-border-sm me-2"
+												*ngIf="saving"
+												role="status"></span>
+											<i class="fas fa-save" *ngIf="!saving"></i>
+											{{ getSubmitButtonText() }}
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Información de Validación -->
+						<div class="validation-summary mt-4" *ngIf="userForm.invalid && userForm.touched">
+							<div class="alert alert-warning">
+								<h6>
+									<i class="fas fa-exclamation-triangle"></i>
+									Por favor, corrige los siguientes errores:
+								</h6>
+								<ul class="mb-0">
+									<li *ngIf="hasError('documentNumber', 'required')">El número de documento es requerido</li>
+									<li *ngIf="hasError('documentTypeId', 'required')">El tipo de documento es requerido</li>
+									<li *ngIf="hasError('name', 'required')">El nombre es requerido</li>
+									<li *ngIf="hasError('fathersLastName', 'required')">El apellido paterno es requerido</li>
+									<li *ngIf="hasError('mothersLastName', 'required')">El apellido materno es requerido</li>
+									<li *ngIf="hasError('email', 'required') || hasError('email', 'email')">Un email válido es requerido</li>
+									<li *ngIf="hasError('phone', 'required')">El teléfono es requerido</li>
+									<li *ngIf="hasError('address', 'required')">La dirección es requerida</li>
+									<li *ngIf="hasError('ubigeoCode', 'required')">El ubigeo es requerido</li>
+									<li *ngIf="hasError('password', 'required')">La contraseña es requerida</li>
+								</ul>
 				</div>
 			</div>
-			<div class="row pb-2">
-				<div class="col-lg-2">Distrito</div>
-				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Villa el salvador</ng-option>
-					</ng-select>
+
+					</form>
 				</div>
-				<div class="col-lg-2">Telefono</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
-			</div>
-			<div class="row pb-2">
-				<div class="col-lg-2">Correo</div>
-				<div class="col-lg-4"><input type="email" class="form-control form-control-sm" /></div>
-				<div class="col-lg-2">Contraseña</div>
-				<div class="col-lg-4"><input type="password" class="form-control form-control-sm" /></div>
 			</div>
 		</div>
 	</div>	
-</form>
+</div>

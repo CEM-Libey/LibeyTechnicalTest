@@ -13,4 +13,19 @@
         public string Email { get; init; }
         public string Password { get; init; }       
     }
+
+    public record UserSearchQuery
+    {
+        public string? DocumentNumber { get; init; }
+        public string? Name { get; init; }
+        public string? Email { get; init; }
+        public bool? Active { get; init; }
+        public int Page { get; init; } = 1;
+        public int PageSize { get; init; } = 10;
+    }
+
+    public record UserDeleteCommand
+    {
+        public string DocumentNumber { get; init; }
+    }
 }
