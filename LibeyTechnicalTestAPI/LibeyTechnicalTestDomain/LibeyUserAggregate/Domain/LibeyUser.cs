@@ -28,5 +28,50 @@
             Password = password;
             Active = true;
         }
+
+        public void SetDocumentNumber(string value)
+        {
+            DocumentNumber = value;
+        }
+        public void SetDocumentTypeId(int value)
+        {
+            DocumentTypeId = value;
+        }
+        public void SetName(string value)
+        {
+            Name = value;
+        }
+        public void SetFathersLastName(string value)
+        {
+            FathersLastName = value;
+        }
+        public void SetMothersLastName(string value)
+        {
+            MothersLastName = value;
+        }
+        public void SetAddress(string value)
+        {
+            Address = value;
+        }
+        public void SetUbigeoCode(string value)
+        {
+            UbigeoCode = value;
+        }
+        public void SetPhone(string value)
+        {
+            Phone = value;
+        }
+        public void SetEmail(string value)
+        {
+            Email = value;
+        }
+        public void SetPassword(string value)
+        {
+            Password = value;
+        }
+        public void SetActive(bool value)
+        {
+            Active = value;
+        }
     }
 }

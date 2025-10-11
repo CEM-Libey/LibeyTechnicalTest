@@ -7,9 +7,27 @@ import { LibeyUser } from "src/app/entities/libeyuser";
 	providedIn: "root",
 })
 export class LibeyUserService {
+	private base = `${environment.pathLibeyTechnicalTest}/LibeyUser`
+	
 	constructor(private http: HttpClient) {}
+
 	Find(documentNumber: string): Observable<LibeyUser> {
-		const uri = `${environment.pathLibeyTechnicalTest}LibeyUser/${documentNumber}`;
-		return this.http.get<LibeyUser>(uri);
+		return this.http.get<LibeyUser>(`${this.base}/${documentNumber}`);
+	}
+
+	FindAll(): Observable<LibeyUser[]> {
+		return this.http.get<LibeyUser[]>(`${this.base}/all`);
+	}
+
+	Create(payload: LibeyUser) {
+		return this.http.post<boolean>(this.base, payload);
+	}
+
+	Update(payload: Partial<LibeyUser>) {
+		return this.http.patch<boolean>(this.base, payload);
+	}
+
+	Remove(documentNumber: string) {
+		return this.http.delete<boolean>(`${this.base}/${documentNumber}`);
 	}
 }
