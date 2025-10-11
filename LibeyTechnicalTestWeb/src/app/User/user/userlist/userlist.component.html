@@ -1,0 +1,50 @@
+<div class="card" style="margin: 2rem; background:#edf2f6; border-radius:10px;">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b>Listado de usuarios</b>
+    <div>
+      <input class="form-control form-control-sm" style="display:inline-block; width:260px;"
+             [(ngModel)]="search" (ngModelChange)="applyFilter()" placeholder="Buscar (doc, nombre, email)" />
+      <button class="btn btn-success btn-sm ms-2" (click)="newUser()">Nuevo</button>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div *ngIf="loading">Cargando...</div>
+    <div *ngIf="!loading && error" class="text-danger">{{ error }}</div>
+
+    <div class="table-responsive" *ngIf="!loading && !error">
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th>Doc.</th>
+            <th>Tipo</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Activo</th>
+            <th style="width:140px;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of view">
+            <td>{{ u.documentNumber }}</td>
+            <td>{{ u.documentTypeId }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.fathersLastName }} {{ u.mothersLastName }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.phone }}</td>
+            <td>{{ u.active ? 'Sí' : 'No' }}</td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm me-2" (click)="editUser(u)">Editar</button>
+              <button class="btn btn-outline-danger btn-sm" (click)="deleteUser(u)">Eliminar</button>
+            </td>
+          </tr>
+          <tr *ngIf="view.length === 0">
+            <td colspan="8" class="text-center">Sin resultados</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
