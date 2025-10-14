@@ -1,12 +1,13 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AppComponent } from "./app.component";
+import { NotFoundComponent } from 	'./not-found/not-found.component'; 
 import { UsercardsComponent } from "./User/user/usercards/usercards.component";
 import { UsermaintenanceComponent } from "./User/user/usermaintenance/usermaintenance.component";
 const routes: Routes = [
 	{
 		path: "",
-		redirectTo: "/user",
+		redirectTo: "/user/card",
 		pathMatch: "full",
 	},
 	{
@@ -16,7 +17,7 @@ const routes: Routes = [
 			{ path: "maintenance", component: UsermaintenanceComponent },
 		],
 	},
-	{ path: "**", component: AppComponent },
+	{ path: "**", component: NotFoundComponent },
 ];
 @NgModule({
 	imports: [RouterModule.forRoot(routes)],

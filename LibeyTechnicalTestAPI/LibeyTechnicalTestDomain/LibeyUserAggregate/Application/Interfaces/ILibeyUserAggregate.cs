@@ -5,5 +5,10 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application.Interfaces
     {
         LibeyUserResponse FindResponse(string documentNumber);
         void Create(UserUpdateorCreateCommand command);
+
+        // Métodos agregados para CRUD completo
+        List<LibeyUserResponse> GetAll(string? search);
+        void Update(UserUpdateorCreateCommand command);
+        void Delete(string documentNumber);
     }
 }
