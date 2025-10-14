@@ -1,4 +1,4 @@
-<form #userForm="ngForm" style="padding-right: 5%; padding-left: 5%; ">
+<form [formGroup]="form" style="padding-right: 5%; padding-left: 5%; ">
 	<div class="card" style="width: 100%;margin-top: 2rem;background-color:#edf2f6;border-radius: 10px; height: 70em; " >
 		<div class="card-header"><b>Mantenimiento de usuario</b></div>
 		<div class="card mb-4 mt-4">
@@ -20,24 +20,7 @@
 						Guardar
 					</a>
 				</button>
-				<button type="button" class="btn-toolbar">
-					<a class="nav-link text-toolbar">
-						<span>
-							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-								<path
-									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-									stroke="#38E8C6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							</svg>
-						</span>
-						Limpiar
-					</a>
-				</button>
-				<button type="button" class="btn-toolbar">
+				<button type="button" class="btn-toolbar" style="margin-left:1rem;" (click)="goBack()">
 					<a class="nav-link text-toolbar">
 						<span>
 							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
@@ -60,54 +43,56 @@
 			<div class="row pb-2 pr-2">
 				<div class="col-lg-2">Tipo de documento</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
-					</ng-select>
+					<!--<ng-select [items]="documentTypes" bindLabel="DocumentTypeDescription" bindValue="DocumentTypeId" placeholder="Seleccione" formControlName="documentTypeId" class="ng-select-solid">
+					</ng-select>-->
+					<select class="form-control form-control-sm" formControlName="documentTypeId">
+						<option *ngFor="let dt of documentTypes" [value]="dt.documentTypeId">{{dt.documentTypeDescription}}</option>
+					</select>
 				</div>
 				<div class="col-lg-2">Número de documento</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="documentNumber" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Nombre</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="name" /></div>
 				<div class="col-lg-2">Apellido Paterno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="fathersLastName" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Apellido Materno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="mothersLastName" /></div>
 				<div class="col-lg-2">Dirección</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="address" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Departamento</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
-					</ng-select>
+					<select class="form-control form-control-sm" formControlName="regionCode" (change)="onRegionChange($any($event).target.value)">
+						<option *ngFor="let dt of departments" [value]="dt.regionCode">{{dt.regionDescription}}</option>
+					</select>
 				</div>
 				<div class="col-lg-2">Provincia</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
-					</ng-select>
+					<select class="form-control form-control-sm" formControlName="provinceCode" (change)="onProvinceChange($any($event).target.value)">
+						<option *ngFor="let dt of provinces" [value]="dt.provinceCode">{{dt.provinceDescription}}</option>
+					</select>
 				</div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Distrito</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Villa el salvador</ng-option>
-					</ng-select>
+					<select class="form-control form-control-sm" formControlName="ubigeoCode">
+						<option *ngFor="let dt of districts" [value]="dt.ubigeoCode">{{dt.ubigeoDescription}}</option>
+					</select>
 				</div>
 				<div class="col-lg-2">Telefono</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="phone" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Correo</div>
-				<div class="col-lg-4"><input type="email" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="email" class="form-control form-control-sm" formControlName="email" /></div>
 				<div class="col-lg-2">Contraseña</div>
-				<div class="col-lg-4"><input type="password" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="password" class="form-control form-control-sm" formControlName="password" /></div>
 			</div>
 		</div>
 	</div>	

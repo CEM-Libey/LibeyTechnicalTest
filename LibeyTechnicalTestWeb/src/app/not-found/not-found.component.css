@@ -1,0 +1,12 @@
+.not-found-container {
+  text-align: center;
+  margin-top: 80px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.not-found-container h1 {
+  font-size: 28px;
+  color: #333;
+}
+.not-found-container p {
+  color: #666;
+}

@@ -1,25 +1,48 @@
-<div class="row mt-3" style="margin: 5rem 10rem 0 10rem; height: 70em; padding-top: 5rem; background-color:#edf2f6;border-radius: 10px;">
-	<div class="col-lg-2 col-md-4">
-		<div class="card" style="width: 20rem; height: 15rem;;">
-			<h5 class="card-header"> <b>Crear cliente</b></h5>
-			<div class="card-body">			
-				<p class="card-text">Registrar clientes nuevos.</p>			
-			</div>
-			<div class="card-footer">
-				<a href="/user/maintenance" style="width: 100%;" class="btn btn-primary">Ir</a>
+<div class="container" style="margin-top:2rem;">
+	<div class="d-flex justify-content-between mb-3">
+		<div>
+			<button class="btn btn-primary" (click)="create()">Crear usuario</button>
+		</div>
+		<div class="input-group" style="width:40%">
+			<input [(ngModel)]="searchTerm" (ngModelChange)="applyFilter()" class="form-control" placeholder="Buscar por nombre, doc o email" />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="applyFilter()">Buscar</button>
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-2 col-md-4">
-		<div class="card" style="width: 20rem; height: 15rem;">
-			<h5 class="card-header"><b>Listar clientes</b></h5>
-			<div class="card-body">				
-				<p class="card-text">Buscar clientes ya registrados.</p>			
-			</div>
-			<div class="card-footer">
-				<a class="btn btn-primary" style="width: 100%;">Ir</a>
+
+	<div class="card" style="padding:1rem;">
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Documento</th>
+					<th>Nombre</th>
+					<th>Apellido paterno</th>
+					<th>Correo</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let u of paged">
+					<td>{{u.documentNumber}}</td>
+					<td>{{u.name}}</td>
+					<td>{{u.fathersLastName}}</td>
+					<td>{{u.email}}</td>
+					<td>
+						<button class="btn btn-sm btn-secondary mr-2" (click)="edit(u)">Editar</button>
+						<button class="btn btn-sm btn-danger" (click)="delete(u)">Eliminar</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="d-flex justify-content-between">
+			<div>Mostrando {{filtered.length}} resultados</div>
+			<div>
+				<button class="btn btn-sm btn-outline-primary mr-2" (click)="prevPage()">Anterior</button>
+				<span> página {{page}} </span>
+				<button class="btn btn-sm btn-outline-primary ml-2" (click)="nextPage()">Siguiente</button>
 			</div>
 		</div>
-	
 	</div>
 </div>
