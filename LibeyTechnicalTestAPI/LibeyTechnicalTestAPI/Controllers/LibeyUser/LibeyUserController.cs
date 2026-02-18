@@ -1,6 +1,7 @@
 ﻿using LibeyTechnicalTestDomain.LibeyUserAggregate.Application.DTO;
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 namespace LibeyTechnicalTestAPI.Controllers.LibeyUser
 {
     [ApiController]
@@ -17,13 +18,36 @@ namespace LibeyTechnicalTestAPI.Controllers.LibeyUser
         public IActionResult FindResponse(string documentNumber)
         {
             var row = _aggregate.FindResponse(documentNumber);
+            if (string.IsNullOrEmpty(row.DocumentNumber))
+            {
+                return NotFound();
+            }
             return Ok(row);
         }
         [HttpPost]       
-        public IActionResult Create(UserUpdateorCreateCommand command)
+        public IActionResult Create([FromBody] UserUpdateorCreateCommand command)
         {
              _aggregate.Create(command);
             return Ok(true);
+        }
+        [HttpPut]
+        public IActionResult Update([FromBody] UserUpdateorCreateCommand command)
+        {
+            _aggregate.Update(command);
+            return Ok(true);
+        }
+        [HttpDelete("{documentNumber}")]
+        public IActionResult Delete(string documentNumber)
+        {
+            _aggregate.Delete(documentNumber);
+            return Ok(true);
+        }   
+        [HttpGet]
+        [Route("listLibeyUsers")]
+        public IActionResult ListLibeyUsers()
+        {
+            var list = _aggregate.ListLibeyUsers();
+            return Ok(list);
         }
     }
 }

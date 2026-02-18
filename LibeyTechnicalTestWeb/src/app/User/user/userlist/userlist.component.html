@@ -1,0 +1,60 @@
+<div class="div" style="padding-right: 5%; padding-left: 5%;">
+  <div class="card"
+       style="width: 100%; margin-top: 2rem; background-color:#edf2f6; border-radius: 10px;">
+
+    <div class="card-header">
+      <b>Lista de usuarios</b>
+    </div>
+
+    <div class="card-body">
+
+      <div class="table-responsive" *ngIf="users.length > 0; else noData">
+
+        <table class="table table-striped table-hover table-bordered align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Documento</th>
+              <th>Tipo</th>
+              <th>Nombre</th>
+              <th>Apellido P.</th>
+              <th>Apellido M.</th>
+              <th>Teléfono</th>
+              <th>Correo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let user of users; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ user.documentNumber }}</td>
+              <td>{{ user.documentTypeId }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.fathersLastName }}</td>
+              <td>{{ user.mothersLastName }}</td>
+              <td>{{ user.phone }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <button class="btn btn-sm btn-primary me-2" (click)="editUser(user.documentNumber)">
+                  Editar
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="deleteUser(user.documentNumber)">
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <ng-template #noData>
+        <div class="alert alert-info text-center">
+          No hay usuarios registrados
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>

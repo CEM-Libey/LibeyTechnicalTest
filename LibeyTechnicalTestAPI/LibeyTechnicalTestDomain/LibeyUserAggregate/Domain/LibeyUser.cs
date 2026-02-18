@@ -28,5 +28,10 @@
             Password = password;
             Active = true;
         }
+
+        public void Deactivate()
+        {
+            Active = false;
+        }
     }
 }
