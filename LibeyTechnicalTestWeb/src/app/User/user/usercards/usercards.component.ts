@@ -8,8 +8,14 @@ import { LibeyUserService } from "src/app/core/service/libeyuser/libeyuser.servi
 export class UsercardsComponent implements OnInit {
 	constructor(private libeyUserService: LibeyUserService) {}
 	ngOnInit(): void {
-		this.libeyUserService.Find("46257869").subscribe(response => {
-			console.log(response, "User");
-		});
+		// this.libeyUserService.Find("75519211").subscribe(response => {
+		// 	console.log(response, "User");
+		// });
 	}
+
+	// listLibeyUsers() {
+	// 	this.libeyUserService.getAll().subscribe(response => {
+	// 		console.log(response, "List of users");
+	// 	});
+	// }
 }

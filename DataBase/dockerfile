@@ -6,4 +6,4 @@ COPY ["CEM/SqlCmdScript.sql","var/opt/sqlserver/SqlCmdScript.sql"]
 USER root
 RUN chmod +x var/opt/sqlserver/SqlCmdScript.sql
 USER mssql
-RUN /opt/mssql/bin/sqlservr & sleep 60s & /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P .Nv3rrefg049jsKK. -d master -i /var/opt/sqlserver/SqlCmdScript.sql
+#RUN /opt/mssql/bin/sqlservr & sleep 60s & /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P .Nv3rrefg049jsKK. -d master -i /var/opt/sqlserver/SqlCmdScript.sql

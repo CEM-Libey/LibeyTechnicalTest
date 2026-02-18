@@ -37,5 +37,38 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Infrastructure
             if (list.Any()) return list.First();
             else return new LibeyUserResponse();
         }
+        public void Update(LibeyUser libeyUser)
+        {
+            _context.LibeyUsers.Update(libeyUser);
+            _context.SaveChanges();
+        }
+        public void Delete(string documentNumber)
+        {
+            var user = _context.LibeyUsers.FirstOrDefault(x => x.DocumentNumber == documentNumber);
+
+            if (user != null)
+            {
+                user.Deactivate();
+                _context.SaveChanges();
+            }
+        }
+
+        public IEnumerable<LibeyUserResponse> ListLibeyUsers()
+        {
+            var q = from libeyUser in _context.LibeyUsers.Where(x => x.Active == true)
+                    select new LibeyUserResponse()
+                    {
+                        DocumentNumber = libeyUser.DocumentNumber,
+                        Active = libeyUser.Active,
+                        Address = libeyUser.Address,
+                        DocumentTypeId = libeyUser.DocumentTypeId,
+                        Email = libeyUser.Email,
+                        FathersLastName = libeyUser.FathersLastName,
+                        MothersLastName = libeyUser.MothersLastName,
+                        Name = libeyUser.Name,
+                        Phone = libeyUser.Phone
+                    };
+            return q.ToList();
+        }
     }
 }
