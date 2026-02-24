@@ -3,6 +3,7 @@ using LibeyTechnicalTestDomain.LibeyUserAggregate.Application.Interfaces;
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Domain;
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Infrastructure;
 using System.Numerics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
 {
     public class LibeyUserAggregate : ILibeyUserAggregate
@@ -91,6 +92,11 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
             {
                 return new BaseResponseDTO("No se detectaron cambios", false);
             }
+            var check = checkCommand(command);
+            if ((check != null))
+            {
+                return check;
+            }
             exists.Update(command.DocumentTypeId, command.Name, command.FathersLastName, command.MothersLastName, command.Address,
                 command.UbigeoCode, command.Phone, command.Email, command.Password);
             await _repository.UpdateAsync(exists);
@@ -106,6 +112,29 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
             {
                 return new BaseResponseDTO($"El documento {command.DocumentNumber} ya existe", false);
             }
+            var check = checkCommand(command);
+            if ((check!=null))
+            {
+                return check;
+            }
+
+            var create = new LibeyUser(command.DocumentNumber, command.DocumentTypeId, command.Name,
+                command.FathersLastName, command.MothersLastName, command.Address, command.UbigeoCode, command.Phone,
+                command.Email, command.Password);
+            await _repository.AddAsync(create);
+            return new BaseResponseDTO($"Usuario Creado", true);
+        }
+
+        public async Task<List<ComboDTO>> DocumentTypesCombo()
+        {
+            var types = await _repository.FindDocumentTypes();
+            var combo = (from x in types
+                         select new ComboDTO(x.DocumentTypeId.ToString(), x.DocumentTypeDescription)
+                         ).ToList();
+            return combo;
+        }
+        private BaseResponseDTO? checkCommand(UserUpdateorCreateCommand command)
+        {
             if (command.DocumentNumber.Length > 20)
             {
                 return new BaseResponseDTO($"El documento {command.DocumentNumber} tiene mas de 20 caracteres", false);
@@ -130,7 +159,7 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
             {
                 return new BaseResponseDTO($"Dirreción  tiene mas de 100 caracteres", false);
             }
-            if (command.UbigeoCode.Length!=6)
+            if (command.UbigeoCode.Length != 6)
             {
                 return new BaseResponseDTO($"ubigeo debe tener 6 carcateres", false);
             }
@@ -150,21 +179,7 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
             {
                 return new BaseResponseDTO($"Contraseñia  tiene mas de 20 caracteres", false);
             }
-
-            var create = new LibeyUser(command.DocumentNumber, command.DocumentTypeId, command.Name,
-                command.FathersLastName, command.MothersLastName, command.Address, command.UbigeoCode, command.Phone,
-                command.Email, command.Password);
-            await _repository.AddAsync(create);
-            return new BaseResponseDTO($"Usuario Creado", true);
-        }
-
-        public async Task<List<ComboDTO>> DocumentTypesCombo()
-        {
-            var types = await _repository.FindDocumentTypes();
-            var combo = (from x in types
-                         select new ComboDTO(x.DocumentTypeId.ToString(), x.DocumentTypeDescription)
-                         ).ToList();
-            return combo;
+            return null;
         }
     }
 }
