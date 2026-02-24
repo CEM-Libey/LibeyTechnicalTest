@@ -1,0 +1,192 @@
+<div class="card">
+    <div class="card-content">
+      <div class="card-header">
+        <h5 class="card-title">Editar cliente</h5>
+      </div>
+      <div class="card-body">
+         <form [formGroup]="updateform" style="padding-right: 5%; padding-left: 5%; ">
+               <div class="row pb-2 pr-2">
+				<div class="col-lg-2">Tipo de documento</div>
+				<div class="col-lg-4">
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId"
+						formControlName="documentTypeId" required>
+						<ng-option *ngFor="let t of types" [value]="t.code">
+							{{t.description}}
+						</ng-option>
+					</ng-select>
+					<small class="text-danger" *ngIf="f['documentTypeId'].invalid && f['documentTypeId'].touched">
+						<span *ngIf="f['documentTypeId'].hasError('required')">
+							Tipo DocumentoObligatorio
+						</span>
+					</small>
+				</div>
+				<div class="col-lg-2">Número de documento</div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm"
+						formControlName="documentNumber"  />
+						<small class="text-danger" *ngIf="f['documentNumber'].invalid && f['documentNumber'].touched">
+						<span *ngIf="f['documentNumber'].hasError('required')">
+							Número de documento es obligatorio
+						</span>
+						<span *ngIf="f['documentNumber'].hasError('maxlength')">
+							20 caracteres maximo
+						</span>
+					</small>
+
+					</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Nombre</div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="name" />
+					<small class="text-danger" *ngIf="f['name'].invalid && f['name'].touched">
+						<span *ngIf="f['name'].hasError('required')">
+							Nombre es obligatorio
+						</span>
+						<span *ngIf="f['name'].hasError('maxlength')">
+							100 caracteres maximo
+						</span>
+					</small>
+				</div>
+				<div class="col-lg-2">Apellido Paterno</div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm"
+						formControlName="fathersLastName" />
+						<small class="text-danger" *ngIf="f['fathersLastName'].invalid && f['fathersLastName'].touched">
+						<span *ngIf="f['fathersLastName'].hasError('required')">
+							Apellido Paterno es obligatorio
+						</span>
+						<span *ngIf="f['fathersLastName'].hasError('maxlength')">
+							200 caracteres maximo
+						</span>
+					</small>
+					</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Apellido Materno</div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm"
+						formControlName="mothersLastName" />
+						<small class="text-danger" *ngIf="f['mothersLastName'].invalid && f['mothersLastName'].touched">
+						<span *ngIf="f['mothersLastName'].hasError('required')">
+							Apellido Materno es obligatorio
+						</span>
+						<span *ngIf="f['mothersLastName'].hasError('maxlength')">
+							200 caracteres maximo
+						</span>
+					</small>
+					</div>
+				<div class="col-lg-2">Dirección</div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm"
+						formControlName="address" />
+						<small class="text-danger" *ngIf="f['address'].invalid && f['address'].touched">
+						<span *ngIf="f['address'].hasError('required')">
+							Dirreción es obligatorio
+						</span>
+						<span *ngIf="f['address'].hasError('maxlength')">
+							200 caracteres maximo
+						</span>
+					</small>
+					</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Departamento</div>
+				<div class="col-lg-4">
+					<ng-select placeholder="Seleccione" class="ng-select-solid" 
+						formControlName="regionCode" required (change)="onRegionChange()">
+						<ng-option *ngFor="let t of regions" [value]="t.code">
+							{{t.description}}
+						</ng-option>
+					</ng-select>
+					<small class="text-danger" *ngIf="f['regionCode'].invalid && f['regionCode'].touched">
+						<span *ngIf="f['regionCode'].hasError('required')">
+							Departamento Obligatorio
+						</span>
+					</small>
+				</div>
+				<div class="col-lg-2">Provincia</div>
+				<div class="col-lg-4">
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId"
+						formControlName="provinceCode" required (change)="onProvinceChange()">
+						<ng-option *ngFor="let t of provinces" [value]="t.code">
+							{{t.description}}
+						</ng-option>
+					</ng-select>
+					<small class="text-danger" *ngIf="f['provinceCode'].invalid && f['provinceCode'].touched">
+						<span *ngIf="f['provinceCode'].hasError('required')">
+							Provincia Obligatorio
+						</span>
+					</small>
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Distrito</div>
+				<div class="col-lg-4">
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId"
+						formControlName="ubigeoCode" required>
+						<ng-option *ngFor="let t of ubigeos" [value]="t.code">
+							{{t.description}}
+						</ng-option>
+					</ng-select>
+					<small class="text-danger" *ngIf="f['ubigeoCode'].invalid && f['ubigeoCode'].touched">
+						<span *ngIf="f['ubigeoCode'].hasError('required')">
+							Distrito Obligatorio
+						</span>
+					</small>
+				</div>
+				<div class="col-lg-2">Telefono</div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="phone" />
+					<small class="text-danger" *ngIf="f['phone'].invalid && f['phone'].touched">
+						<span *ngIf="f['phone'].hasError('required')">
+							El Telefono es obligatorio
+						</span>
+
+						<span *ngIf="f['phone'].hasError('pattern')">
+							9 digitos numericos
+						</span>
+					</small>
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Correo</div>
+				<div class="col-lg-4">
+					<input type="email" class="form-control form-control-sm" formControlName="email" />
+					<small class="text-danger" *ngIf="f['email'].invalid && f['email'].touched">
+						<span *ngIf="f['email'].hasError('required')">
+							El email es obligatorio
+						</span>
+
+						<span *ngIf="f['email'].hasError('email')">
+							El formato del email no es válido
+						</span>
+					</small>
+				</div>
+				<div class="col-lg-2">Contraseña</div>
+				<div class="col-lg-4">
+					<input type="password" class="form-control form-control-sm"
+						formControlName="password" />
+					<small class="text-danger" *ngIf="f['password'].invalid && f['password'].touched">
+						<span *ngIf="f['password'].hasError('required')">
+							Contraseñia es obligatorio
+						</span>
+
+						<span *ngIf="f['password'].hasError('minlength')">
+							6 caracteres minimo
+						</span>
+						<span *ngIf="f['password'].hasError('maxlength')">
+							20 caracteres maximo
+						</span>
+					</small>
+				</div>
+			</div>
+		 </form>
+
+      </div>
+	  <div class="card-footer">
+        <button class="btn btn-secondary"
+                (click)="closeModal()">
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary"
+                (click)="updateUser()">
+          Guardar Cambios
+        </button>
+      </div>
+</div>
