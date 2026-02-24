@@ -1,0 +1,61 @@
+<div class="card">
+  <div class="card-content">
+    <div class="card-header">
+      <h5 class="card-title">Detalle cliente</h5>
+      <button class="btn-close" (click)="closeModal()"></button>
+    </div>
+    <div class="card-body">
+      <div class="row mb-2">
+        <div class="col-md-4 fw-bold">Documento:</div>
+        <div class="col-md-8">
+          {{ userDetail.documentTypeDescription }} - {{ userDetail.documentNumber }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-4 fw-bold">Nombre Completo:</div>
+        <div class="col-md-8">
+          {{ userDetail.name }} {{ userDetail.fathersLastName }} {{ userDetail.mothersLastName }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-4 fw-bold">Email:</div>
+        <div class="col-md-8">
+          {{ userDetail.email }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-4 fw-bold">Teléfono:</div>
+        <div class="col-md-8">
+          {{ userDetail.phone }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-4 fw-bold">Dirección:</div>
+        <div class="col-md-8">
+          {{ userDetail.address }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-4 fw-bold">Ubicación:</div>
+        <div class="col-md-8">
+          {{ userDetail.regionDescription }} /
+          {{ userDetail.provinceDescription }} /
+          {{ userDetail.ubigeoDescription }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-4 fw-bold">Estado:</div>
+        <div class="col-md-8">
+          <span class="badge" [ngClass]="userDetail.active ? 'bg-success' : 'bg-danger'">
+            {{ userDetail.active ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>

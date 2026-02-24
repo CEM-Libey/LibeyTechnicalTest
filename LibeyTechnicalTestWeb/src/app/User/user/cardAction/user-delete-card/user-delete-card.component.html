@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-content">
+      <div class="card-header">
+        <h5 class="card-title">Eliminar cliente</h5>
+      </div>
+      <div class="card-body">
+        ¿Está seguro que desea eliminar al usuario
+        <strong>{{user.documentNumber}}</strong>?
+      </div>
+    
+	  <div class="card-footer">
+        <button class="btn btn-secondary"
+                (click)="closeModal()">
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary"
+                (click)="deleteUser()">
+          Guardar Cambios
+        </button>
+      </div>
+</div>

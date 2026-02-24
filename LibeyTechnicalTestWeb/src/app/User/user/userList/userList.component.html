@@ -1,0 +1,140 @@
+<div class="container mt-4">
+  <div class="card">
+    <br />
+    <div class="card mb-3">
+      <form [formGroup]="filterGroup">
+        <div class="card-body row g-3">
+          <div class="row pb-2 pr-2">
+            <div class="col-lg-2">Tipo de documento</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" formControlName="documentTypeId">
+                <ng-option *ngFor="let t of types" [value]="t.code">
+                  {{t.description}}
+                </ng-option>
+              </ng-select>
+
+            </div>
+            <div class="col-lg-2">Número de documento</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm"
+                formControlName="documentNumber" />
+            </div>
+          </div>
+          <div class="row pb-2 pr-2">
+            <div class="col-lg-2">Region</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" formControlName="regionCode"
+                (change)="onRegionChange()">
+                <ng-option *ngFor="let t of regions" [value]="t.code">
+                  {{t.description}}
+                </ng-option>
+              </ng-select>
+
+            </div>
+            <div class="col-lg-2">Email</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="email" />
+            </div>
+          </div>
+
+          <div class="row pb-2">
+            <div class="col-lg-2">Distrito</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" formControlName="ubigeoCode" required>
+                <ng-option *ngFor="let t of ubigeos" [value]="t.code">
+                  {{t.description}}
+                </ng-option>
+              </ng-select>
+
+            </div>
+            <div class="col-lg-2">Provincia</div>
+            <div class="col-lg-4">
+              <ng-select placeholder="Seleccione" class="ng-select-solid" formControlName="provinceCode" required
+                (change)="onProvinceChange()">
+                <ng-option *ngFor="let t of provinces" [value]="t.code">
+                  {{t.description}}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row pb-2 pr-2">
+            <div class="col-lg-2">Telefono</div>
+            <div class="col-lg-4">
+              <input type="text" class="form-control form-control-sm" formControlName="phone" />
+
+            </div>
+            <div class="col-lg-2">Nombre</div>
+            <div class="col-lg-4"><input type="text" class="form-control form-control-sm" formControlName="name" />
+            </div>
+          </div>
+          <div class="col-md-4 d-flex justify-content-end align-items-end gap-2">
+            <button class="btn btn-outline-secondary"
+                (click)="onClear()">
+          Cancelar
+        </button>
+            <button class="btn btn-primary " (click)="search()">
+              Buscar
+            </button>
+          </div>
+
+
+        </div>
+      </form>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-bordered table-hover table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Ubigeo</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{user.documentNumber}}</td>
+            <td>{{user.name}} {{user.fathersLastName}} {{user.mothersLastName}}</td>
+            <td>{{user.address}}</td>
+            <td>{{user.ubigeoCode}}</td>
+            <td>{{user.phone}}</td>
+            <td>{{user.email}}</td>
+            <td>
+              <button class="btn btn-sm btn-warning me-2" (click)="edit(user)">
+                Editar
+              </button>
+              <button class="btn btn-sm btn-secondary me-2" (click)="detail(user.documentNumber)">
+                Ver
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="delete(user)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <button class="btn btn-secondary" [disabled]="this.query.skip === 0" (click)="previous()">
+        Anterior
+      </button>
+
+      <button class="btn btn-secondary" (click)="next()">
+        Siguiente
+      </button>
+    </div>
+    <div *ngIf="selectedUser!=null">
+      <app-user-edit-card [user]="selectedUser" (close)="closeEdit()">
+      </app-user-edit-card>
+    </div>
+    <div *ngIf="deleteUser!=null">
+      <app-user-delete-card [user]="deleteUser" (close)="closeDelete()">
+      </app-user-delete-card>
+    </div>
+    <div *ngIf="select!=null">
+      <app-user-detail-card [user]="select" (close)="closeDetail()">
+      </app-user-detail-card>
+    </div>
+
+  </div>
