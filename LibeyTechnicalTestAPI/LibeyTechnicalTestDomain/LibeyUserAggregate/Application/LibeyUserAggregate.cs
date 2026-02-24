@@ -2,6 +2,7 @@
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Application.Interfaces;
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Domain;
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Infrastructure;
+using System.Numerics;
 namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
 {
     public class LibeyUserAggregate : ILibeyUserAggregate
@@ -34,7 +35,7 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
             return row;
         }
 
-        public async Task<List<LibeyUserResponse>> libeyUserResponses(LibeyUserQuery query)
+        public async Task<DataCollection> libeyUserResponses(LibeyUserQuery query)
         {
             var users = await _repository.GetAllAsync(query.Skip, query.Take, query.DocumentTypeId, query.UbigeoCode, query.email,
                 query.documentNumber, query.Name, query.Phone);
@@ -60,7 +61,13 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
                               Active = x.Active,
                           }
                          ).ToList();
-            return queryd;
+            var count = await _repository.GetCountAsync(x => x.Active && (query.DocumentTypeId == null || x.DocumentTypeId == query.DocumentTypeId) &&
+            (string.IsNullOrEmpty(query.UbigeoCode) || x.UbigeoCode == query.UbigeoCode) &&
+            (string.IsNullOrEmpty(query.email) || x.Email.Contains(query.email)) &&
+            (string.IsNullOrEmpty(query.documentNumber) || x.DocumentNumber.Contains(query.documentNumber)) &&
+            (string.IsNullOrEmpty(query.Phone) || x.Phone.Contains(query.Phone)) &&
+            (string.IsNullOrEmpty(query.Name) || (x.Name + " " + x.MothersLastName + " " + x.FathersLastName).Contains(query.Name)));
+            return new DataCollection(count,queryd);
         }
 
         public async Task<BaseResponseDTO> Update(UserUpdateorCreateCommand command)
@@ -84,7 +91,7 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
             {
                 return new BaseResponseDTO("No se detectaron cambios", false);
             }
-            exists.Update(command.DocumentTypeId, command.DocumentNumber, command.FathersLastName, command.MothersLastName, command.Address,
+            exists.Update(command.DocumentTypeId, command.Name, command.FathersLastName, command.MothersLastName, command.Address,
                 command.UbigeoCode, command.Phone, command.Email, command.Password);
             await _repository.UpdateAsync(exists);
             return new BaseResponseDTO($"Usuario Actualizado", true);
@@ -99,6 +106,51 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application
             {
                 return new BaseResponseDTO($"El documento {command.DocumentNumber} ya existe", false);
             }
+            if (command.DocumentNumber.Length > 20)
+            {
+                return new BaseResponseDTO($"El documento {command.DocumentNumber} tiene mas de 20 caracteres", false);
+            }
+            if (command.DocumentTypeId <= 0)
+            {
+                return new BaseResponseDTO($"El DocumentTypeId es invalido", false);
+            }
+            if (command.Name.Length > 100)
+            {
+                return new BaseResponseDTO($"El nombre  tiene mas de 100 caracteres", false);
+            }
+            if (command.FathersLastName.Length > 100)
+            {
+                return new BaseResponseDTO($"El apellido paterno  tiene mas de 100 caracteres", false);
+            }
+            if (command.Name.Length > 100)
+            {
+                return new BaseResponseDTO($"El apellido materno  tiene mas de 100 caracteres", false);
+            }
+            if (command.Address.Length > 100)
+            {
+                return new BaseResponseDTO($"Dirreción  tiene mas de 100 caracteres", false);
+            }
+            if (command.UbigeoCode.Length!=6)
+            {
+                return new BaseResponseDTO($"ubigeo debe tener 6 carcateres", false);
+            }
+            if (command.Phone.Length > 20)
+            {
+                return new BaseResponseDTO($"Telefono  tiene mas de 20 caracteres", false);
+            }
+            if (command.Email.Length > 20)
+            {
+                return new BaseResponseDTO($"Email  tiene mas de 20 caracteres", false);
+            }
+            if (command.Password.Length < 6)
+            {
+                return new BaseResponseDTO($"Contraseñia  tiene menos de 6 caracteres", false);
+            }
+            if (command.Password.Length > 20)
+            {
+                return new BaseResponseDTO($"Contraseñia  tiene mas de 20 caracteres", false);
+            }
+
             var create = new LibeyUser(command.DocumentNumber, command.DocumentTypeId, command.Name,
                 command.FathersLastName, command.MothersLastName, command.Address, command.UbigeoCode, command.Phone,
                 command.Email, command.Password);

@@ -31,6 +31,7 @@ export class UserListComponent implements OnInit {
   regions: Combo[] = []
   ubigeos: Combo[] = []
   provinces: Combo[] = []
+  total:number=0;
   ngOnInit() {
     this.loadUsers();
     this.loadDocumentTypes()
@@ -63,10 +64,12 @@ export class UserListComponent implements OnInit {
   }
   loadUsers() {
     this.LibeyUserService.list(this.query).subscribe((response) => {
-      this.users = response;
+      this.users = response.list;
+      this.total= response.total
     })
   }
   next() {
+    
     this.query.skip += this.query.take;
     this.loadUsers();
   }
@@ -78,23 +81,33 @@ export class UserListComponent implements OnInit {
   }
   edit(user: LibeyUser) {
     this.selectedUser = { ...user };
+    this.select=null;
+    this.deleteUser=null;
 
   }
   detail(user: string) {
     this.select = user
+    this.selectedUser=null;
+    this.deleteUser=null;
+  }
+  
+  delete(user: LibeyUser) {
+    this.deleteUser = user;
+    this.select=null;
+    this.selectedUser==null
+
   }
   closeEdit() {
     this.selectedUser = null
-  }
-  delete(user: LibeyUser) {
-    this.deleteUser = user;
-
+    this.loadUsers()
   }
   closeDelete() {
     this.deleteUser = null
+    this.loadUsers()
   }
   closeDetail() {
     this.select = null
+    
   }
   loadDocumentTypes() {
     this.LibeyUserService.typeCombo().subscribe((response) => {

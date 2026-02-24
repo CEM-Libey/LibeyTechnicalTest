@@ -1,4 +1,6 @@
-﻿using LibeyTechnicalTestDomain.LibeyUserAggregate.Application;
+﻿using FluentValidation;
+using LibeyTechnicalTestDomain.LibeyUserAggregate.Application;
+using LibeyTechnicalTestDomain.LibeyUserAggregate.Application.DTO;
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Application.Interfaces;
 using LibeyTechnicalTestDomain.LibeyUserAggregate.Infrastructure;
 namespace LibeyTechnicalTestAPI.Middleware

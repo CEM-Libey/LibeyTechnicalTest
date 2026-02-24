@@ -22,7 +22,7 @@
 				</div>
 				<div class="col-lg-2">Número de documento</div>
 				<div class="col-lg-4"><input type="text" class="form-control form-control-sm"
-						formControlName="documentNumber" />
+						formControlName="documentNumber"  />
 						<small class="text-danger" *ngIf="f['documentNumber'].invalid && f['documentNumber'].touched">
 						<span *ngIf="f['documentNumber'].hasError('required')">
 							Número de documento es obligatorio
@@ -88,7 +88,7 @@
 			<div class="row pb-2">
 				<div class="col-lg-2">Departamento</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId"
+					<ng-select placeholder="Seleccione" class="ng-select-solid" 
 						formControlName="regionCode" required (change)="onRegionChange()">
 						<ng-option *ngFor="let t of regions" [value]="t.code">
 							{{t.description}}

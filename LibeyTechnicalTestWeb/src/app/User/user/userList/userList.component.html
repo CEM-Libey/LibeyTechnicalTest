@@ -79,6 +79,18 @@
         </div>
       </form>
     </div>
+    <div *ngIf="selectedUser!=null">
+      <app-user-edit-card [user]="selectedUser" (close)="closeEdit()">
+      </app-user-edit-card>
+    </div>
+    <div *ngIf="deleteUser!=null">
+      <app-user-delete-card [user]="deleteUser" (close)="closeDelete()">
+      </app-user-delete-card>
+    </div>
+    <div *ngIf="select!=null">
+      <app-user-detail-card [user]="select" (close)="closeDetail()">
+      </app-user-detail-card>
+    </div>
     <div class="card-body table-responsive">
       <table class="table table-bordered table-hover table-striped">
         <thead class="table-dark">
@@ -120,21 +132,10 @@
         Anterior
       </button>
 
-      <button class="btn btn-secondary" (click)="next()">
+      <button class="btn btn-secondary" (click)="next()"    [disabled]="this.query.skip +this.query.take >= this.total">
         Siguiente
       </button>
     </div>
-    <div *ngIf="selectedUser!=null">
-      <app-user-edit-card [user]="selectedUser" (close)="closeEdit()">
-      </app-user-edit-card>
-    </div>
-    <div *ngIf="deleteUser!=null">
-      <app-user-delete-card [user]="deleteUser" (close)="closeDelete()">
-      </app-user-delete-card>
-    </div>
-    <div *ngIf="select!=null">
-      <app-user-detail-card [user]="select" (close)="closeDetail()">
-      </app-user-detail-card>
-    </div>
+    
 
   </div>

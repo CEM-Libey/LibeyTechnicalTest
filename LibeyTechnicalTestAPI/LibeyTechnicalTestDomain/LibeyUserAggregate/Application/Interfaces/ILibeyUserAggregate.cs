@@ -7,7 +7,7 @@ namespace LibeyTechnicalTestDomain.LibeyUserAggregate.Application.Interfaces
         Task<BaseResponseDTO> Create(UserUpdateorCreateCommand command);
         Task<BaseResponseDTO> Update(UserUpdateorCreateCommand command);
         Task<BaseResponseDTO> Delete(string documentNumber);
-        Task<List<LibeyUserResponse>> libeyUserResponses(LibeyUserQuery query);
+        Task<DataCollection> libeyUserResponses(LibeyUserQuery query);
         Task<List<ComboDTO>> DocumentTypesCombo();
     }
 }

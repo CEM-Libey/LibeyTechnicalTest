@@ -43,8 +43,8 @@ namespace LibeyTechnicalTestAPI.Controllers.LibeyUser
             return Ok(result);
         }
         [HttpGet]
-        [ProducesResponseType(typeof(List<LibeyUserResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<List<LibeyUserResponse>>> List([FromQuery] LibeyUserQuery query)
+        [ProducesResponseType(typeof(DataCollection), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<DataCollection>> List([FromQuery] LibeyUserQuery query)
         {
             var result = await _aggregate.libeyUserResponses(query);
             return Ok(result);

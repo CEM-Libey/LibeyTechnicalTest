@@ -60,9 +60,11 @@ export class UserEditCardComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadRegions();
+    this.loadProvinces(this.user.regionCode)
+    this.loadUbigeos(this.user.provinceCode)
     this.loadDocumentTypes();
     this.updateform = this.formBuilder.group({
-      documentNumber: [this.user.documentNumber, [Validators.required, Validators.maxLength(200)]],
+      documentNumber: [{ value: this.user.documentNumber, disabled: true }, Validators.required],
       documentTypeId: [this.user.documentTypeId, [Validators.required]],
       name: [this.user.name, [Validators.required, Validators.maxLength(100)]],
       fathersLastName: [this.user.fathersLastName, [Validators.required, Validators.maxLength(200)]],
@@ -76,6 +78,7 @@ export class UserEditCardComponent implements OnInit {
       regionCode: [this.user.regionCode, Validators.required],
       active: [true]
     })
+   
   }
   get f() {
     return this.updateform.controls;
@@ -84,7 +87,7 @@ export class UserEditCardComponent implements OnInit {
     this.close.emit();
   }
   updateUser() {
-    const formValue = this.updateform.value;
+    const formValue = this.updateform.getRawValue();
     this.LibeyUserService.update(formValue).subscribe((response) => {
 
       if (response.isSuccess) {

@@ -7,6 +7,7 @@ import { LibeyUserDetail } from "src/app/entities/libeyUserDetail";
 import { LibeyUserQuery } from "src/app/entities/libeyUserQuery";
 import { BaseResponse } from "src/app/entities/baseResponse";
 import { Combo } from "src/app/entities/combo";
+import { DataCollection } from "src/app/entities/dataCollection";
 @Injectable({
 	providedIn: "root",
 })
@@ -17,7 +18,7 @@ export class LibeyUserService {
 		const uri = `${environment.pathLibeyTechnicalTest}LibeyUser/${documentNumber}`;
 		return this.http.get<LibeyUserDetail>(uri);
 	}
-	list(query: LibeyUserQuery): Observable<LibeyUser[]> {
+	list(query: LibeyUserQuery): Observable<DataCollection> {
 		let params = new HttpParams()
 			.set('Skip', query.skip)
 			.set('Take', query.take);
@@ -39,7 +40,7 @@ export class LibeyUserService {
 		if (query.name) {
 			params = params.set('name', query.name);
 		}
-		return this.http.get<LibeyUser[]>(this.baseUrl, { params });
+		return this.http.get<DataCollection>(this.baseUrl, { params });
 	}
 	create(user: LibeyUser): Observable<BaseResponse> {
 		return this.http.post<BaseResponse>(this.baseUrl, user);
