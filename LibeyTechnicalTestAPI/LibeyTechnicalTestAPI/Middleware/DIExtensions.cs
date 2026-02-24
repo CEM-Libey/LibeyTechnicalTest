@@ -9,6 +9,8 @@ namespace LibeyTechnicalTestAPI.Middleware
         {
             services.AddTransient<ILibeyUserAggregate, LibeyUserAggregate>();
             services.AddTransient<ILibeyUserRepository, LibeyUserRepository>();
+            services.AddTransient<IUbigeoAggregate, UbigeoAggregate>();
+            services.AddTransient<IUbigeoRepository, UbigeoRepository>();
             return services;
         }
     }
