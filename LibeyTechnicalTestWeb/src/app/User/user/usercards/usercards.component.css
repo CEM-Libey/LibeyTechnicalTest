@@ -1,0 +1,11 @@
+/* styles for usercards */
+.usercards-wrapper{
+	background-color: #edf2f6;
+	border-radius: 10px;
+}
+.usercards-wrapper .card{
+	min-height: 12rem;
+}
+.usercards-wrapper .card-title{
+	font-weight: 600;
+}
