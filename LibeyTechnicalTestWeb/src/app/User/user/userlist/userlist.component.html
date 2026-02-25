@@ -1,0 +1,30 @@
+<div class="card mt-4" style="padding:1rem;">
+    <div class="card-header"><b>Listado de usuarios</b></div>
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Activo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of users">
+                    <td>{{u.documentNumber}}</td>
+                    <td>{{u.name}} {{u.fathersLastName}} {{u.mothersLastName}}</td>
+                    <td>{{u.phone}}</td>
+                    <td>{{u.email}}</td>
+                    <td>{{u.active ? 'Sí' : 'No'}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary mr-2" (click)="edit(u)">Editar</button>
+                        <button class="btn btn-sm btn-danger" (click)="remove(u.documentNumber)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

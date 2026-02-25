@@ -28,5 +28,23 @@
             Password = password;
             Active = true;
         }
+        // AGREGADO: Método para actualizar datos
+        public void Update(string name, string fathersLastName, string mothersLastName, string address, string ubigeoCode, string phone, string email, string password)
+        {
+            Name = name;
+            FathersLastName = fathersLastName;
+            MothersLastName = mothersLastName;
+            Address = address;
+            UbigeoCode = ubigeoCode;
+            Phone = phone;
+            Email = email;
+            Password = password;
+        }
+
+        // AGREGADO: Método para eliminación 
+        public void Delete()
+        {
+            Active = false;
+        }
     }
 }

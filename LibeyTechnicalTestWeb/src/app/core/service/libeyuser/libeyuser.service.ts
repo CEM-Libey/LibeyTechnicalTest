@@ -12,4 +12,23 @@ export class LibeyUserService {
 		const uri = `${environment.pathLibeyTechnicalTest}LibeyUser/${documentNumber}`;
 		return this.http.get<LibeyUser>(uri);
 	}
+	GetAll(): Observable<LibeyUser[]> {
+		const uri = `${environment.pathLibeyTechnicalTest}LibeyUser`;
+		return this.http.get<LibeyUser[]>(uri);
+	}
+
+	Create(user: LibeyUser): Observable<any> {
+		const uri = `${environment.pathLibeyTechnicalTest}LibeyUser`;
+		return this.http.post(uri, user);
+	}
+
+	Update(documentNumber: string, user: LibeyUser): Observable<any> {
+		const uri = `${environment.pathLibeyTechnicalTest}LibeyUser/${documentNumber}`;
+		return this.http.put(uri, user);
+	}
+
+	Delete(documentNumber: string): Observable<any> {
+		const uri = `${environment.pathLibeyTechnicalTest}LibeyUser/${documentNumber}`;
+		return this.http.delete(uri);
+	}
 }

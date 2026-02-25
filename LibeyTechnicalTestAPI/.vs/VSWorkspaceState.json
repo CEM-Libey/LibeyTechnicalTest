@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\LibeyTechnicalTestAPI",
+    "\\LibeyTechnicalTestAPI\\bin",
+    "\\LibeyTechnicalTestDomain",
+    "\\LibeyTechnicalTestDomain\\LibeyUserAggregate",
+    "\\LibeyTechnicalTestDomain\\LibeyUserAggregate\\Application",
+    "\\LibeyTechnicalTestDomain\\LibeyUserAggregate\\Application\\DTO",
+    "\\LibeyTechnicalTestDomain\\LibeyUserAggregate\\Application\\Interfaces",
+    "\\LibeyTechnicalTestDomain\\LibeyUserAggregate\\Domain",
+    "\\LibeyTechnicalTestDomain\\LibeyUserAggregate\\Infrastructure"
+  ],
+  "SelectedNode": "\\LibeyTechnicalTestAPI\\appsettings.Development.json",
+  "PreviewInSolutionExplorer": false
+}

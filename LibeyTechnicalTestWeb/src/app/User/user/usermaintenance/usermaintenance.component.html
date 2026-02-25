@@ -1,9 +1,9 @@
-<form #userForm="ngForm" style="padding-right: 5%; padding-left: 5%; ">
+<form #userForm="ngForm" style="padding-right: 5%; padding-left: 5%; " (ngSubmit)="save()">
 	<div class="card" style="width: 100%;margin-top: 2rem;background-color:#edf2f6;border-radius: 10px; height: 70em; " >
 		<div class="card-header"><b>Mantenimiento de usuario</b></div>
 		<div class="card mb-4 mt-4">
 			<ul class="nav">
-				<button type="button" class="btn-toolbar" (click)="Submit()">
+				<button type="submit" class="btn-toolbar">
 					<a class="nav-link text-toolbar">
 						<span>
 							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
@@ -20,7 +20,7 @@
 						Guardar
 					</a>
 				</button>
-				<button type="button" class="btn-toolbar">
+				<button type="button" class="btn-toolbar" (click)="clearForm()">
 					<a class="nav-link text-toolbar">
 						<span>
 							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
@@ -38,7 +38,7 @@
 					</a>
 				</button>
 				<button type="button" class="btn-toolbar">
-					<a class="nav-link text-toolbar">
+					<a class="nav-link text-toolbar" href="/">
 						<span>
 							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
 								<path
@@ -60,55 +60,87 @@
 			<div class="row pb-2 pr-2">
 				<div class="col-lg-2">Tipo de documento</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="documentTypeId" [(ngModel)]="user.documentTypeId" required>
+						<ng-option [value]="1">DNI</ng-option>
+						<ng-option [value]="2">Carnet</ng-option>
 					</ng-select>
 				</div>
 				<div class="col-lg-2">Número de documento</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="documentNumber" [(ngModel)]="user.documentNumber" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Nombre</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="name" [(ngModel)]="user.name" /></div>
 				<div class="col-lg-2">Apellido Paterno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="fathersLastName" [(ngModel)]="user.fathersLastName" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Apellido Materno</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="mothersLastName" [(ngModel)]="user.mothersLastName" /></div>
 				<div class="col-lg-2">Dirección</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="address" [(ngModel)]="user.address" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Departamento</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="regionCode" [(ngModel)]="user.regionCode" required>
+						<ng-option value="15">Lima</ng-option>
 					</ng-select>
 				</div>
 				<div class="col-lg-2">Provincia</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Lima</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="provinceCode" [(ngModel)]="user.provinceCode" required>
+						<ng-option value="1501">Lima</ng-option>
 					</ng-select>
 				</div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Distrito</div>
 				<div class="col-lg-4">
-					<ng-select placeholder="Seleccione" class="ng-select-solid" name="CreditDebitNoteReasonTypeId" required>
-						<ng-option value="1">Villa el salvador</ng-option>
+					<ng-select placeholder="Seleccione" class="ng-select-solid" name="ubigeoCode" [(ngModel)]="user.ubigeoCode" required>
+						<ng-option value="150129">Villa el Salvador</ng-option>
 					</ng-select>
 				</div>
 				<div class="col-lg-2">Telefono</div>
-				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="text" class="form-control form-control-sm" name="phone" [(ngModel)]="user.phone" /></div>
 			</div>
 			<div class="row pb-2">
 				<div class="col-lg-2">Correo</div>
-				<div class="col-lg-4"><input type="email" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="email" class="form-control form-control-sm" name="email" [(ngModel)]="user.email" /></div>
 				<div class="col-lg-2">Contraseña</div>
-				<div class="col-lg-4"><input type="password" class="form-control form-control-sm" /></div>
+				<div class="col-lg-4"><input type="password" class="form-control form-control-sm" name="password" [(ngModel)]="user.password" /></div>
 			</div>
 		</div>
 	</div>	
 </form>
+
+<div class="card mt-4" style="padding:1rem;">
+	<div class="card-header"><b>Listado de usuarios</b></div>
+	<div class="card-body">
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Documento</th>
+					<th>Nombre</th>
+					<th>Teléfono</th>
+					<th>Correo</th>
+					<th>Activo</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let u of users">
+					<td>{{u.documentNumber}}</td>
+					<td>{{u.name}} {{u.fathersLastName}} {{u.mothersLastName}}</td>
+					<td>{{u.phone}}</td>
+					<td>{{u.email}}</td>
+					<td>{{u.active ? 'Sí' : 'No'}}</td>
+					<td>
+						<button class="btn btn-sm btn-primary mr-2" (click)="edit(u)">Editar</button>
+						<button class="btn btn-sm btn-danger" (click)="remove(u.documentNumber)">Eliminar</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
